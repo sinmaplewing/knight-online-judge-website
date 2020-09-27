@@ -24,6 +24,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
 
     implementation("org.jetbrains:kotlin-styled:1.0.0-pre.110-kotlin-1.4.0")
+
+    implementation("org.jetbrains:kotlin-react-redux:5.0.7-pre.117-kotlin-1.4.10")
+    implementation("org.jetbrains:kotlin-redux:4.0.0-pre.117-kotlin-1.4.10")
 }
 
 kotlin {

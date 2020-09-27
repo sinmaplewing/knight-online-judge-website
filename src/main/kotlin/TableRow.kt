@@ -14,7 +14,7 @@ class TableRow: RComponent<TableRowProps, RState>() {
                 for (item in props.items) {
                     th {
                         tableItem {
-                            itemData = item
+                            attrs.itemData = item
                         }
                     }
                 }
@@ -22,7 +22,7 @@ class TableRow: RComponent<TableRowProps, RState>() {
                 for (item in props.items) {
                     td {
                         tableItem {
-                            itemData = item
+                            attrs.itemData = item
                         }
                     }
                 }
@@ -31,7 +31,5 @@ class TableRow: RComponent<TableRowProps, RState>() {
     }
 }
 
-fun RBuilder.tableRow(handler: TableRowProps.() -> Unit): ReactElement =
-    child(TableRow::class) {
-        attrs(handler)
-    }
+fun RBuilder.tableRow(handler: RElementBuilder<TableRowProps>.() -> Unit): ReactElement =
+    child(TableRow::class, handler)

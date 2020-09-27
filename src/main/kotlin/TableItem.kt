@@ -25,7 +25,5 @@ class TableItem: RComponent<TableItemProps, RState>() {
     }
 }
 
-fun RBuilder.tableItem(handler: TableItemProps.() -> Unit): ReactElement =
-    child(TableItem::class) {
-        attrs(handler)
-    }
+fun RBuilder.tableItem(handler: RElementBuilder<TableItemProps>.() -> Unit): ReactElement =
+    child(TableItem::class, handler)

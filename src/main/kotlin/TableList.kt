@@ -1,3 +1,4 @@
+import kotlinx.html.classes
 import react.*
 import react.dom.*
 
@@ -9,17 +10,21 @@ external interface TableListProps: RProps {
 class TableList: RComponent<TableListProps, RState>() {
     override fun RBuilder.render() {
         table {
+            attrs.classes = setOf("table", "table-bordered", "table-striped")
+
             thead {
+                attrs.classes = setOf("thead-dark")
+
                 tableRow {
-                    isHeader = true
-                    items = props.headers
+                    attrs.isHeader = true
+                    attrs.items = props.headers
                 }
             }
             tbody {
                  for (item in props.items) {
                      tableRow {
-                         isHeader = false
-                         items = item
+                         attrs.isHeader = false
+                         attrs.items = item
                      }
                  }
             }
@@ -27,7 +32,5 @@ class TableList: RComponent<TableListProps, RState>() {
     }
 }
 
-fun RBuilder.tableList(handler: TableListProps.() -> Unit): ReactElement =
-    child(TableList::class) {
-        attrs(handler)
-    }
+fun RBuilder.tableList(handler: RElementBuilder<TableListProps>.() -> Unit): ReactElement =
+    child(TableList::class, handler)

@@ -1,21 +1,30 @@
+import kotlinx.css.LinearDimension
+import kotlinx.css.margin
+import kotlinx.css.width
+import kotlinx.html.classes
 import react.*
 import react.dom.*
+import styled.css
+import styled.styledArticle
 
-external interface MainArticleProps: RProps {
-    var content: String
-}
-
-class MainArticle: RComponent<MainArticleProps, RState>() {
+class MainArticle: RComponent<RProps, RState>() {
     override fun RBuilder.render() {
-        article {
+
+        styledArticle {
+            css {
+                width = LinearDimension("80%")
+                margin = "30px auto"
+            }
+
+            attrs.classes = setOf("row")
+
             section {
-                +props.content
+                attrs.classes = setOf("col")
+                children()
             }
         }
     }
 }
 
-fun RBuilder.mainArticle(handler: MainArticleProps.() -> Unit): ReactElement =
-    child(MainArticle::class) {
-        attrs(handler)
-    }
+fun RBuilder.mainArticle(handler: RElementBuilder<RProps>.() -> Unit): ReactElement =
+    child(MainArticle::class, handler)
