@@ -11,19 +11,27 @@ external interface ProblemDetailArticleProps: RProps {
 
 external interface ProblemDetailArticleState: RState {
     var problemDetailData: ProblemDetailData?
+    var isError: Boolean
     var onLoad: (Int) -> Unit
 }
 
 class ProblemDetailArticle: RComponent<ProblemDetailArticleProps, ProblemDetailArticleState>() {
     override fun ProblemDetailArticleState.init() {
         problemDetailData = null
+        isError = false
 
         onLoad = {
             val mainScope = MainScope()
             mainScope.launch {
-                val remoteProblemDetailData = Fetcher.createProblemDetailFetcher(it).fetch()
-                setState {
-                    problemDetailData = remoteProblemDetailData.data
+                try {
+                    val remoteProblemDetailData = Fetcher.createProblemDetailFetcher(it).fetch()
+                    setState {
+                        problemDetailData = remoteProblemDetailData.data
+                    }
+                } catch(e: Throwable) {
+                    setState {
+                        isError = true
+                    }
                 }
             }
         }
@@ -31,6 +39,15 @@ class ProblemDetailArticle: RComponent<ProblemDetailArticleProps, ProblemDetailA
 
     override fun RBuilder.render() {
         mainArticle {
+            if (state.isError) {
+                div {
+                    attrs.classes = setOf("alert", "alert-danger")
+                    +"找不到題目資訊。"
+                }
+
+                return@mainArticle
+            }
+
             val problemDetailData = state.problemDetailData
             if (problemDetailData == null || problemDetailData.id != props.problemId.toString()) {
                 state.onLoad(props.problemId)
@@ -42,6 +59,8 @@ class ProblemDetailArticle: RComponent<ProblemDetailArticleProps, ProblemDetailA
                 pre {
                     +problemDetailData.description
                 }
+
+                submissionForm { attrs.problemId = props.problemId }
             }
         }
     }

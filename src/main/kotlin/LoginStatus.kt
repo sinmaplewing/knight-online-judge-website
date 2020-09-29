@@ -64,6 +64,9 @@ class LoginStatus: RComponent<LoginStatusProps, RState>() {
                     routeLink("/login", className = "btn btn-primary") {
                         +"登入"
                     }
+                    routeLink("/register", className = "btn btn-primary") {
+                        +"註冊"
+                    }
                 }
             }
         }

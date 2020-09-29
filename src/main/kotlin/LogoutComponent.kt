@@ -41,7 +41,7 @@ class LogoutComponent: RComponent<LogoutComponentProps, RState>() {
         if (props.isUserIdExisted) {
             props.onLogout()
         } else {
-            redirect(to = "/")
+            redirect(to = "/?success=true")
         }
     }
 }

@@ -1,3 +1,5 @@
+import kotlinx.browser.window
+import kotlinx.html.classes
 import kotlinx.html.id
 import react.*
 import react.dom.*
@@ -14,17 +16,38 @@ class App: RComponent<RProps, RState>() {
                 attrs.id = "container"
 
                 websiteHeader { }
+
                 switch {
-                    route("/", exact = true) { mainArticle { +"這裡是首頁" } }
+                    route("/", exact = true) { indexArticle {  } }
                     route("/problems", exact = true) { problemsArticle {  } }
-                    route<IdProps>("/problems/:id") { problemDetailArticle {
+                    route("/problems/new", exact = true) { problemForm { } }
+                    route<IdProps>("/problems/:id", exact = true) { problemDetailArticle {
                         attrs.problemId = it.match.params.id
                     }}
+                    route<IdProps>("/problems/:id/edit") {
+                        problemForm {
+                            attrs.problemId = it.match.params.id
+                        }
+                    }
+                    route<IdProps>("/problems/:id/delete") {
+                        problemDeleteComponent {
+                            attrs.problemId = it.match.params.id
+                        }
+                    }
 
                     route("/submissions", exact = true) { submissionsArticle { } }
+                    route("/submissions/restart", exact = true) {
+                        restartSubmissionComponent {  }
+                    }
+                    route<IdProps>("/submissions/:id/restart") {
+                        restartSubmissionComponent {
+                            attrs.submissionId = it.match.params.id
+                        }
+                    }
 
                     route("/users", exact = true) { usersArticle {  } }
 
+                    route("/register") { userRegisterForm { } }
                     route("/login") { mainArticle { connectedLoginForm { } } }
                     route("/logout") { mainArticle { connectedLogoutComponent { } }}
                 }
